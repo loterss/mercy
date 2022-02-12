@@ -250,7 +250,7 @@ class RockFaceDataset(Dataset):
     def __getitem__(self, idx):
         img_name = os.path.join(self.root_dir, self.rock_dataframe.iloc[idx, 0])
         image = mpimg.imread(img_name)
-        label = torch.tensor(self.rock_dataframe.iloc[idx, 1], dtype = torch.float)
+        label = torch.tensor(self.rock_dataframe.iloc[idx, 1], dtype = torch.float32)
 
         if self.transform:
             image = self.transform(image)
