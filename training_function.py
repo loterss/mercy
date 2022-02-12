@@ -232,7 +232,7 @@ def makePreds(dataloader, model, device=None):
 class RockFaceDataset(Dataset):
     """ Geological face mapping custom dataset """
 
-    def __init__(self, csv_path, root_dir, transform=None):
+    def __init__(self, rock_dataframe, root_dir, transform=None):
         """
         Args:
             csv_path (string): Path to csv_file with annotations.
@@ -240,7 +240,7 @@ class RockFaceDataset(Dataset):
             transform : Optional transformation to be applied on image sample
         """
 
-        self.rock_dataframe = pd.read_csv(csv_path)
+        self.rock_dataframe = rock_dataframe
         self.root_dir = root_dir
         self.transform = transform
 
