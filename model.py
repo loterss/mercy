@@ -24,11 +24,14 @@ class FineTuneModel(nn.Module):
             )
 
             # Model Name
-            self.modelName = 'resnet50'
+            self.modelName = 'resnet'
 
         elif arch.startswith('vgg'):
             # Feature extraction layer
             self.features = original_model.features
+            
+            # Using AdativeAveragePooling for 448x448 images
+            self.avgpool = nn.AdaptiveAvgPool2d((7, 7))
 
             # Classifier with classes
             self.classifier = nn.Sequential(
@@ -42,7 +45,7 @@ class FineTuneModel(nn.Module):
             )
 
             # Model Name
-            self.modelName = 'vgg16'
+            self.modelName = 'vgg'
         else:
             raise "Finetuning not supported on this architecture !!"
 
@@ -54,6 +57,10 @@ class FineTuneModel(nn.Module):
     def forward(self, x):
         # Pass feature extraction layer
         f = self.features(x)
+        
+        if self.modelName == 'vgg':
+            f = self.avgpool(f)
+        
         # Flatten the layer before enter to FCN layer
         f = f.view(f.size(0), -1)
         # Pass FCN Classifier layer
