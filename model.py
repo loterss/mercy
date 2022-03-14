@@ -32,6 +32,7 @@ class FineTuneModel(nn.Module):
 
             # Classifier with classes
             self.classifier = nn.Sequential(
+                nn.AdaptiveAvgPool(output_size=(7,7))
                 nn.Dropout(),
                 nn.Linear(25088, 4096),
                 nn.ReLU(inplace=True),
