@@ -90,7 +90,7 @@ class FineTuneModel(nn.Module):
         # Pass feature extraction layer
         f = self.features(x)
         
-        if self.modelName == 'vgg' or self.modelName.starswith('eff'):
+        if self.modelName == 'vgg' or self.modelName == 'efficientnet_b0' or self.modelName == 'efficientnet_b4':
             f = self.avgpool(f)
 
         # Flatten the layer before enter to FCN layer
