@@ -48,6 +48,7 @@ class FineTuneModel(nn.Module):
             self.modelName = 'vgg'
 
         elif arch.startswith('efficientnet_b0'):
+
             # Feature extraction layer
             self.features = original_model.features
 
