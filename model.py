@@ -46,6 +46,37 @@ class FineTuneModel(nn.Module):
 
             # Model Name
             self.modelName = 'vgg'
+
+        elif arch.startswith('efficientnet_b0'):
+            # Feature extraction layer
+            self.features = original_model.features
+
+            # Using AdativeAveragePooling for 448x448 images
+            self.avgpool = original_model.avgpool
+
+            # Classifier with classes
+            self.classifier = nn.Sequential(
+                nn.Linear(1280, num_classes),
+            )
+
+            # Model Name
+            self.modelName = 'efficientnet_b0'
+
+        elif arch.startswith('efficientnet_b4'):
+            # Feature extraction layer
+            self.features = original_model.features
+
+            # Using AdativeAveragePooling for 448x448 images
+            self.avgpool = original_model.avgpool
+
+            # Classifier with classes
+            self.classifier = nn.Sequential(
+                nn.Linear(1792, num_classes),
+            )
+
+            # Model Name
+            self.modelName = 'efficientnet_b4'
+
         else:
             raise "Finetuning not supported on this architecture !!"
 
@@ -58,9 +89,9 @@ class FineTuneModel(nn.Module):
         # Pass feature extraction layer
         f = self.features(x)
         
-        if self.modelName == 'vgg':
+        if self.modelName == 'vgg' or self.modelName.starswith('eff'):
             f = self.avgpool(f)
-        
+
         # Flatten the layer before enter to FCN layer
         f = f.view(f.size(0), -1)
         # Pass FCN Classifier layer
